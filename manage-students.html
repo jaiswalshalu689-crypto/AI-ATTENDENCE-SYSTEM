@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students - AI Attendance System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-user-check"></i>
+            AI Attendance System
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="live-attendance.html"><i class="fas fa-video"></i> Live Attendance</a>
+            <a href="manage-students.html" class="active"><i class="fas fa-users"></i> Manage Students</a>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-users"></i> Manage Students</h1>
+            <p>Add, edit, and manage student profiles with face recognition data</p>
+        </div>
+
+        <div class="students-layout">
+            <div class="add-student-section">
+                <div class="form-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-user-plus"></i> Add New Student</h3>
+                    </div>
+                    <form id="addStudentForm" class="student-form">
+                        <div class="form-group">
+                            <label for="studentId">Student ID *</label>
+                            <input type="text" id="studentId" name="studentId" required placeholder="Enter student ID">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentName">Full Name *</label>
+                            <input type="text" id="studentName" name="studentName" required placeholder="Enter full name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentEmail">Email</label>
+                            <input type="email" id="studentEmail" name="studentEmail" placeholder="Enter email address">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentPhone">Phone</label>
+                            <input type="tel" id="studentPhone" name="studentPhone" placeholder="Enter phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="studentDepartment">Department</label>
+                            <select id="studentDepartment" name="studentDepartment">
+                                <option value="">Select Department</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Civil">Civil</option>
+                                <option value="Electrical">Electrical</option>
+                            </select>
+                        </div>
+
+                        <div class="photo-section">
+                       <button type="button" id="captureFromCamera" class="btn secondary">
+                                    <i class="fas fa-video"></i> Capture from Camera
+                                </button>
+                                <button type="button" id="uploadPhoto" class="btn outline">
+                                    <i class="fas fa-upload"></i> Upload Photo
+                                </button>
+                                <input type="file" id="photoFile" accept="image/*" style="display: none;">
+                            </div>
+                            
+                            <div id="photoPreview" class="photo-preview" style="display: none;">
+                                <img id="previewImage" alt="Student Photo">
+                                <button type="button" id="removePhoto" class="btn-remove">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn primary">
+                                <i class="fas fa-save"></i> Add Student
+                            </button>
+                            <button type="reset" class="btn outline">
+                                <i class="fas fa-undo"></i> Reset Form
+                            </button>
+                        </div>
+                    </form>                  <h4><i class="fas fa-camera"></i> Face Photo</h4>
+                            <div class="photo-options">
+                   
+                </div>
+
+                <div id="cameraModal" class="modal" style="display: none;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h3>Capture Student Photo</h3>
+                            <button id="closeCameraModal" class="btn-close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="camera-container">
+                                <video id="cameraVideo" autoplay></video>
+                                <canvas id="captureCanvas" style="display: none;"></canvas>
+                            </div>
+                            <div class="camera-controls">
+                                <button id="takePicture" class="btn primary">
+                                    <i class="fas fa-camera"></i> Take Picture
+                                </button>
+                                <button id="retakePicture" class="btn secondary" style="display: none;">
+                                    <i class="fas fa-redo"></i> Retake
+                                </button>
+                                <button id="usePhoto" class="btn success" style="display: none;">
+                                    <i class="fas fa-check"></i> Use This Photo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="students-list-section">
+                <div class="list-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-list"></i> Students List</h3>
+                        <span id="studentsCount" class="count-badge">0</span>
+                    </div>
+                    
+                    <div class="list-controls">
+                        <div class="search-filter">
+                            <input type="text" id="searchStudents" placeholder="Search students..." class="search-input">
+                            <select id="filterDepartment" class="filter-select">
+                                <option value="">All Departments</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Mechanical">Mechanical</option>
+                                <option value="Civil">Civil</option>
+                                <option value="Electrical">Electrical</option>
+                            </select>
+                        </div>
+                        <div class="list-actions">
+                            <button id="refreshStudents" class="btn outline">
+                                <i class="fas fa-sync"></i> Refresh
+                            </button>
+                            <button id="exportStudents" class="btn primary">
+                                <i class="fas fa-download"></i> Export
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="studentsList" class="students-table">
+                        <div class="loading">Loading students...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editStudentModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Edit Student</h3>
+                <button id="closeEditModal" class="btn-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editStudentForm" class="student-form">
+                    <input type="hidden" id="editStudentId">
+                    <div class="form-group">
+                        <label for="editName">Full Name *</label>
+                        <input type="text" id="editName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editEmail">Email</label>
+                        <input type="email" id="editEmail">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPhone">Phone</label>
+                        <input type="tel" id="editPhone">
+                    </div>
+                    <div class="form-group">
+                        <label for="editDepartment">Department</label>
+                        <select id="editDepartment">
+                            <option value="">Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Information Technology">Information Technology</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Mechanical">Mechanical</option>
+                            <option value="Civil">Civil</option>
+                            <option value="Electrical">Electrical</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn primary">
+                            <i class="fas fa-save"></i> Update Student
+                        </button>
+                        <button type="button" id="cancelEdit" class="btn outline">
+                            <i class="fas fa-times"></i> Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="sample-data.js"></script>
+    <script src="manage-students.js"></script>
+</body>
+</html>

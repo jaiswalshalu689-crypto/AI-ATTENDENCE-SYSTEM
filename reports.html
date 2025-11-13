@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - AI Attendance System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-user-check"></i>
+            AI Attendance System
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="live-attendance.html"><i class="fas fa-video"></i> Live Attendance</a>
+            <a href="manage-students.html"><i class="fas fa-users"></i> Manage Students</a>
+            <a href="reports.html" class="active"><i class="fas fa-chart-bar"></i> Reports</a>
+            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-chart-bar"></i> Attendance Reports</h1>
+            <p>Generate and analyze attendance reports with various filters</p>
+        </div>
+
+        <div class="reports-layout">
+            <div class="filters-section">
+                <div class="filter-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-filter"></i> Report Filters</h3>
+                    </div>
+                    <div class="filter-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="reportType">Report Type</label>
+                                <select id="reportType" class="form-control">
+                                    <option value="daily">Daily Report</option>
+                                    <option value="weekly">Weekly Report</option>
+                                    <option value="monthly">Monthly Report</option>
+                                    <option value="custom">Custom Range</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="department">Department</label>
+                                <select id="department" class="form-control">
+                                    <option value="">All Departments</option>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Electronics">Electronics</option>
+                                    <option value="Mechanical">Mechanical</option>
+                                    <option value="Civil">Civil</option>
+                                    <option value="Electrical">Electrical</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row" id="dateFilters">
+                            <div class="form-group">
+                                <label for="startDate">Start Date</label>
+                                <input type="date" id="startDate" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label for="endDate">End Date</label>
+                                <input type="date" id="endDate" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="filter-actions">
+                            <button id="generateReport" class="btn primary">
+                                <i class="fas fa-chart-line"></i> Generate Report
+                            </button>
+                            <button id="clearFilters" class="btn outline">
+                                <i class="fas fa-eraser"></i> Clear Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="report-content">
+                <div class="report-summary">
+                    <div class="summary-card">
+                        <div class="summary-item">
+                            <div class="summary-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="summary-data">
+                                <h3 id="totalStudentsReport">0</h3>
+                                <p>Total Students</p>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <div class="summary-data">
+                                <h3 id="averagePresent">0</h3>
+                                <p>Average Present</p>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon">
+                                <i class="fas fa-percentage"></i>
+                            </div>
+                            <div class="summary-data">
+                                <h3 id="averageAttendance">0%</h3>
+                                <p>Average Attendance</p>
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-icon">
+                                <i class="fas fa-calendar-day"></i>
+                            </div>
+                            <div class="summary-data">
+                                <h3 id="reportDays">0</h3>
+                                <p>Days Covered</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="charts-section">
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-line"></i> Attendance Trend</h3>
+                            <div class="chart-controls">
+                                <button id="chartTypeToggle" class="btn outline small">
+                                    <i class="fas fa-chart-bar"></i> Bar Chart
+                                </button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="attendanceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-chart-pie"></i> Department Wise</h3>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="departmentChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="report-table-section">
+                    <div class="table-card">
+                        <div class="card-header">
+                            <h3><i class="fas fa-table"></i> Detailed Report</h3>
+                            <div class="table-actions">
+                                <button id="exportExcel" class="btn success">
+                                    <i class="fas fa-file-excel"></i> Export Excel
+                                </button>
+                                <button id="exportPDF" class="btn danger">
+                                    <i class="fas fa-file-pdf"></i> Export PDF
+                                </button>
+                                <button id="printReport" class="btn outline">
+                                    <i class="fas fa-print"></i> Print
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="table-controls">
+                            <input type="text" id="searchReport" placeholder="Search in report..." class="search-input">
+                            <select id="sortBy" class="filter-select">
+                                <option value="name">Sort by Name</option>
+                                <option value="id">Sort by ID</option>
+                                <option value="attendance">Sort by Attendance</option>
+                                <option value="department">Sort by Department</option>
+                            </select>
+                        </div>
+
+                        <div id="reportTable" class="report-table">
+                            <div class="no-data">
+                                <i class="fas fa-chart-bar"></i>
+                                <p>Generate a report to view data</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quick-reports">
+            <h3><i class="fas fa-bolt"></i> Quick Reports</h3>
+            <div class="quick-report-buttons">
+                <button id="todayReport" class="quick-btn">
+                    <i class="fas fa-calendar-day"></i>
+                    Today's Report
+                </button>
+                <button id="weekReport" class="quick-btn">
+                    <i class="fas fa-calendar-week"></i>
+                    This Week
+                </button>
+                <button id="monthReport" class="quick-btn">
+                    <i class="fas fa-calendar-alt"></i>
+                    This Month
+                </button>
+                <button id="lowAttendanceReport" class="quick-btn">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Low Attendance
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="sample-data.js"></script>
+    <script src="reports.js"></script>
+</body>
+</html>

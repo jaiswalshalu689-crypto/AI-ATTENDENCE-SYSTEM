@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - AI Attendance System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-user-check"></i>
+            AI Attendance System
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="live-attendance.html"><i class="fas fa-video"></i> Live Attendance</a>
+            <a href="manage-students.html"><i class="fas fa-users"></i> Manage Students</a>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+            <a href="settings.html" class="active"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-cog"></i> System Settings</h1>
+            <p>Configure system preferences and manage application settings</p>
+        </div>
+
+        <div class="settings-layout">
+            <div class="settings-sidebar">
+                <div class="settings-menu">
+                    <button class="settings-tab active" data-tab="general">
+                        <i class="fas fa-sliders-h"></i> General
+                    </button>
+                    <button class="settings-tab" data-tab="recognition">
+                        <i class="fas fa-eye"></i> Recognition
+                    </button>
+                    <button class="settings-tab" data-tab="camera">
+                        <i class="fas fa-video"></i> Camera
+                    </button>
+                    <button class="settings-tab" data-tab="database">
+                        <i class="fas fa-database"></i> Database
+                    </button>
+                    <button class="settings-tab" data-tab="backup">
+                        <i class="fas fa-shield-alt"></i> Backup
+                    </button>
+                    <button class="settings-tab" data-tab="about">
+                        <i class="fas fa-info-circle"></i> About
+                    </button>
+                </div>
+            </div>
+
+            <div class="settings-content">
+                <div id="general" class="settings-panel active">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-sliders-h"></i> General Settings</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="systemName">System Name</label>
+                            <input type="text" id="systemName" value="AI Attendance System" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="organizationName">Organization Name</label>
+                            <input type="text" id="organizationName" placeholder="Enter organization name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="timeZone">Time Zone</label>
+                            <select id="timeZone" class="form-control">
+                                <option value="UTC">UTC</option>
+                                <option value="Asia/Kolkata" selected>Asia/Kolkata (IST)</option>
+                                <option value="America/New_York">America/New_York (EST)</option>
+                                <option value="Europe/London">Europe/London (GMT)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dateFormat">Date Format</label>
+                            <select id="dateFormat" class="form-control">
+                                <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                                <option value="MM/DD/YYYY">MM/DD/YYYY</option>
+                                <option value="YYYY-MM-DD" selected>YYYY-MM-DD</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="autoBackup" checked>
+                                <span class="checkmark"></span>
+                                Enable automatic backup
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="recognition" class="settings-panel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-eye"></i> Face Recognition Settings</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="recognitionThreshold">Recognition Threshold</label>
+                            <input type="range" id="recognitionThreshold" min="0.3" max="0.8" step="0.05" value="0.6" class="range-slider">
+                            <div class="range-value">0.6</div>
+                            <small>Lower values = stricter matching</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="detectionModel">Detection Model</label>
+                            <select id="detectionModel" class="form-control">
+                                <option value="hog" selected>HOG (Faster)</option>
+                                <option value="cnn">CNN (More Accurate)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="maxFaces">Max Faces to Detect</label>
+                            <input type="number" id="maxFaces" min="1" max="10" value="5" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="saveUnknownFaces">
+                                <span class="checkmark"></span>
+                                Save unknown faces for review
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="multipleAttendance">
+                                <span class="checkmark"></span>
+                                Allow multiple attendance per day
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="camera" class="settings-panel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-video"></i> Camera Settings</h3>
+                    </div>
+                    <div class="settings-form">
+                        <div class="form-group">
+                            <label for="cameraIndex">Camera Device</label>
+                            <select id="cameraIndex" class="form-control">
+                                <option value="0" selected>Default Camera (0)</option>
+                                <option value="1">Camera 1</option>
+                                <option value="2">Camera 2</option>
+                            </select>
+                            <button id="testCamera" class="btn outline small">Test Camera</button>
+                        </div>
+                        <div class="form-group">
+                            <label for="cameraResolution">Resolution</label>
+                            <select id="cameraResolution" class="form-control">
+                                <option value="640x480">640x480</option>
+                                <option value="1280x720" selected>1280x720 (HD)</option>
+                                <option value="1920x1080">1920x1080 (Full HD)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="frameRate">Frame Rate (FPS)</label>
+                            <input type="number" id="frameRate" min="5" max="30" value="15" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="showBoundingBox" checked>
+                                <span class="checkmark"></span>
+                                Show face bounding boxes
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="showConfidence" checked>
+                                <span class="checkmark"></span>
+                                Show recognition confidence
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="database" class="settings-panel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-database"></i> Database Management</h3>
+                    </div>
+                    <div class="database-info">
+                        <div class="info-card">
+                            <div class="info-item">
+                                <span class="label">Database Status:</span>
+                                <span id="dbStatus" class="status connected">Connected</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Total Students:</span>
+                                <span id="dbStudents">0</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Total Records:</span>
+                                <span id="dbRecords">0</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Database Size:</span>
+                                <span id="dbSize">0 KB</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="database-actions">
+                        <button id="optimizeDb" class="btn primary">
+                            <i class="fas fa-tools"></i> Optimize Database
+                        </button>
+                        <button id="cleanupDb" class="btn secondary">
+                            <i class="fas fa-broom"></i> Cleanup Old Records
+                        </button>
+                        <button id="resetDb" class="btn danger">
+                            <i class="fas fa-exclamation-triangle"></i> Reset Database
+                        </button>
+                    </div>
+                </div>
+
+                <div id="backup" class="settings-panel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-shield-alt"></i> Backup & Security</h3>
+                    </div>
+                    <div class="backup-section">
+                        <div class="backup-info">
+                            <div class="info-item">
+                                <span class="label">Last Backup:</span>
+                                <span id="lastBackup">Never</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Backup Location:</span>
+                                <span id="backupLocation">./backups/</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="label">Auto Backup:</span>
+                                <span id="autoBackupStatus">Enabled</span>
+                            </div>
+                        </div>
+                        <div class="backup-actions">
+                            <button id="createBackup" class="btn primary">
+                                <i class="fas fa-download"></i> Create Backup
+                            </button>
+                            <button id="restoreBackup" class="btn secondary">
+                                <i class="fas fa-upload"></i> Restore Backup
+                            </button>
+                            <input type="file" id="backupFile" accept=".db,.sql" style="display: none;">
+                        </div>
+                    </div>
+                    <div class="security-section">
+                        <h4>Security Settings</h4>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="encryptBackups" checked>
+                                <span class="checkmark"></span>
+                                Encrypt backup files
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="logAccess" checked>
+                                <span class="checkmark"></span>
+                                Log system access
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="about" class="settings-panel">
+                    <div class="panel-header">
+                        <h3><i class="fas fa-info-circle"></i> About System</h3>
+                    </div>
+                    <div class="about-content">
+                        <div class="system-info">
+                            <div class="app-logo">
+                                <i class="fas fa-user-check"></i>
+                            </div>
+                            <h2>AI Attendance System</h2>
+                            <p class="version">Version 1.0.0</p>
+                            <p class="description">
+                                Professional face recognition-based attendance system with real-time tracking,
+                                comprehensive reporting, and modern web interface.
+                            </p>
+                        </div>
+                        
+                        <div class="system-specs">
+                            <h4>System Information</h4>
+                            <div class="spec-item">
+                                <span class="label">Platform:</span>
+                                <span id="platform">Web Application</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="label">Backend:</span>
+                                <span>Python Flask</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="label">Database:</span>
+                                <span>SQLite</span>
+                            </div>
+                            <div class="spec-item">
+                                <span class="label">Face Recognition:</span>
+                                <span>OpenCV + face_recognition</span>
+                            </div>
+                        </div>
+
+                        <div class="credits">
+                            <h4>Features</h4>
+                            <ul>
+                                <li>Real-time face recognition</li>
+                                <li>Student management system</li>
+                                <li>Comprehensive reporting</li>
+                                <li>Data export capabilities</li>
+                                <li>Professional web interface</li>
+                                <li>Secure data storage</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="settings-actions">
+                    <button id="saveSettings" class="btn primary">
+                        <i class="fas fa-save"></i> Save Settings
+                    </button>
+                    <button id="resetSettings" class="btn outline">
+                        <i class="fas fa-undo"></i> Reset to Default
+                    </button>
+                    <button id="exportSettings" class="btn secondary">
+                        <i class="fas fa-download"></i> Export Settings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="settings.js"></script>
+</body>
+</html>

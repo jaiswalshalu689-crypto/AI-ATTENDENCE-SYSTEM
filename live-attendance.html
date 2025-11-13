@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Attendance - AI Attendance System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">
+            <i class="fas fa-user-check"></i>
+            AI Attendance System
+        </div>
+        <div class="nav-links">
+            <a href="dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="live-attendance.html" class="active"><i class="fas fa-video"></i> Live Attendance</a>
+            <a href="manage-students.html"><i class="fas fa-users"></i> Manage Students</a>
+            <a href="reports.html"><i class="fas fa-chart-bar"></i> Reports</a>
+            <a href="settings.html"><i class="fas fa-cog"></i> Settings</a>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1><i class="fas fa-video"></i> Live Attendance</h1>
+            <p>Real-time face recognition for attendance marking</p>
+        </div>
+
+        <div class="live-attendance-grid">
+            <div class="camera-section">
+                <div class="camera-container">
+                    <div id="cameraStatus" class="camera-status">
+                        <i class="fas fa-camera-slash"></i>
+                        <p>Camera Stopped</p>
+                    </div>
+                    <img id="cameraFeed" class="camera-feed" style="display: none;" alt="Camera Feed">
+                </div>
+                
+                <div class="camera-controls">
+                    <button id="startCamera" class="btn primary">
+                        <i class="fas fa-play"></i> Start Recognition
+                    </button>
+                    <button id="stopCamera" class="btn secondary" disabled>
+                        <i class="fas fa-stop"></i> Stop Recognition
+                    </button>
+                    <button id="capturePhoto" class="btn tertiary" disabled>
+                        <i class="fas fa-camera"></i> Capture Photo
+                    </button>
+                    <a href="camera-test.html" class="btn outline" target="_blank">
+                        <i class="fas fa-tools"></i> Test Camera
+                    </a>
+                </div>
+
+                <div class="recognition-info">
+                    <div class="info-item">
+                        <span class="label">Status:</span>
+                        <span id="recognitionStatus" class="status">Stopped</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Faces Detected:</span>
+                        <span id="facesCount">0</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="label">Last Recognition:</span>
+                        <span id="lastRecognition">None</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="attendance-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-list"></i> Today's Attendance</h3>
+                    <span id="attendanceCount" class="count-badge">0</span>
+                </div>
+                
+                <div class="attendance-filters">
+                    <input type="text" id="searchAttendance" placeholder="Search students..." class="search-input">
+                    <select id="filterStatus" class="filter-select">
+                        <option value="all">All Status</option>
+                        <option value="present">Present</option>
+                        <option value="absent">Absent</option>
+                    </select>
+                    <input type="date" id="attendanceDate" class="form-control" value="">
+                </div>
+
+                <div id="attendanceList" class="attendance-list">
+                    <div class="loading">Loading attendance data...</div>
+                </div>
+
+                <div class="panel-actions">
+                    <button id="refreshAttendance" class="btn outline">
+                        <i class="fas fa-sync"></i> Refresh
+                    </button>
+                    <button id="exportToday" class="btn primary">
+                        <i class="fas fa-download"></i> Export Today
+                    </button>
+                    <button id="exportDailyExcel" class="btn success">
+                        <i class="fas fa-file-excel"></i> Daily Excel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="recognition-log">
+            <div class="log-header">
+                <h3><i class="fas fa-history"></i> Recognition Log</h3>
+                <button id="clearLog" class="btn outline small">
+                    <i class="fas fa-trash"></i> Clear Log
+                </button>
+            </div>
+            <div id="recognitionLog" class="log-content">
+                <div class="log-entry">
+                    <span class="timestamp">System ready for face recognition</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="sample-data.js"></script>
+    <script src="live-attendance.js"></script>
+</body>
+</html>
